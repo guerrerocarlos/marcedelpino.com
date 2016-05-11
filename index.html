@@ -447,7 +447,7 @@ Mobile +569 42458921</br>
       }
 
 
-      d3.csv('airports.csv?preventCache=' + nocache, function(airports) {
+      d3.csv('airports.csv', function(airports) {
 
         _.each(airports, function(each) {
           var push_left = 0
@@ -493,8 +493,8 @@ Mobile +569 42458921</br>
 
 
         var airports_dots
-        d3.csv('united.csv?preventCache=' + nocache, function(united) {
-          d3.csv('conexiones.csv?preventCache=' + nocache, function(conexiones) {
+        d3.csv('united.csv', function(united) {
+          d3.csv('conexiones.csv', function(conexiones) {
             var united_iatas = _.map(united, function(each_united) {
               return each_united['IATA']
             })
