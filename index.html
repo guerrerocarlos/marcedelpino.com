@@ -67,8 +67,9 @@
             <img src='img/profilePhoto.png' />
           </div>
           <div class="large-8 columns" style="font-size:23px;">
-            <div style="margin-top:20px;">
+            <div style="margin-top:5px;">
               <b>Marcela del Pino</b></br>
+              Account Manager</br>
             </div>
             <p>
           </div>
@@ -76,8 +77,7 @@
       </div>
       <div class="row">
         <div class="large-12 columns" style="margin-top:20px; font-size:19px;">
-          Account Manager</br>
-          <a href="mailto:marcela.delpino@united.com">marcela.delpino@united.com</a>
+
         </div>
       </div>
       <div class="row">
@@ -96,6 +96,24 @@
     </div>
   </div>
 
+  <div class="large-12 columns" style="background-color:black;height: 160px;">
+    <div class="row">
+
+      <div class="large-6 columns">
+      </br>
+United Airlines | Av. Apoquindo 2827, piso 2, oficina 202 A, Las Condes | Santiago | Chile</br>
+Mobile +569 42458921</br>
+        <a href="mailto:marcela.delpino@united.com">marcela.delpino@united.com</a>
+      </br>
+      Copyright © 2016 United Airlines, Inc. - All rights reserved.
+
+      </div>
+
+
+    </div>
+
+  </div>
+  </div>
 
 
   <script>
@@ -363,6 +381,8 @@
           console.log('visible_stops_iatas', visible_stops_iatas)
 
           var previous_duration = 0
+          var previous_distance = 0
+          var previous_distance_delay = 0
           var rects = infosvg.selectAll('rect').data(vertical_con)
 
           rects
@@ -386,11 +406,16 @@
             .attr('fill', '#8ED83D')
             .transition()
             .delay(function(d, i) {
-              previous_duration = previous_duration + (d.distance * 20);
-              return previous_duration - (d.distance * 20)
+              var this_distance = d.distance - previous_distance_delay
+              previous_distance_delay = d.distance
+
+              previous_duration = previous_duration + (this_distance * 40);
+              return previous_duration - (this_distance * 40)
             })
             .duration(function(d) {
-              return d.distance * 40
+              var this_distance = d.distance - previous_distance
+              previous_distance = d.distance
+              return this_distance * 40
             })
             .attr('height', vertical_distance)
 
