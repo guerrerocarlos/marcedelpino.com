@@ -58,8 +58,9 @@
   <div class="row" style="margin-top: 40px">
     <div class="small-12 medium-5 large-3 columns">
 
-    </br>
-    </br>
+      </br>
+      </br>
+
       <div class="row">
         <div style="margin-top:0px">
           <div class="large-4 columns" style="">
@@ -85,10 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="show-for-large-up large-9 columns">
-      <svg id='worldmap'></svg>
+    <div class="small-12 medium-12 large-9 columns">
+      <svg id='worldmap' viewBox="0 0 960 480" preserveAspectRatio="xMidYMid meet"></svg>
       <div class="row">
-        <div class="large-4 large-centered columns">
+        <div class="show-for-medium-up large-4 large-centered columns">
           <img src='img/unitedLogo.png' />
         </div>
       </div>
@@ -146,6 +147,23 @@
       .attr("width", width)
       .attr("height", height);
 
+    d3.select(window)
+      .on("resize", function() {
+        var w = window,
+          d = document,
+          e = d.documentElement,
+          g = d.getElementsByTagName('body')[0],
+          x = w.innerWidth || e.clientWidth || g.clientWidth
+          // y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+        if (x < 750) {
+          targetWidth = 500
+        } else {
+          targetWidth = 960 * amplify
+        }
+        console.log(targetWidth)
+        svg.attr("width", targetWidth);
+        // svg.attr("height", targetWidth);
+      });
 
 
     d3.json("world-50m.json", function(error, world) {
@@ -182,25 +200,41 @@
       var stops
       var names_timeout
 
-      function showName(d){
-        var countries_names = svg.selectAll('text.countries').data(d, function(d){return d.IATA})
+      function showName(d) {
+        var countries_names = svg.selectAll('text.countries').data(d, function(d) {
+          return d.IATA
+        })
         countries_names.enter()
           .append('text')
           .attr('class', 'countries')
-          .attr('x', function(d){ return projection([d.LONG, d.LAT])[0] + 10 })
-          .attr('y', function(d){ return projection([d.LONG, d.LAT])[1] + 5})
+          .attr('x', function(d) {
+            return projection([d.LONG, d.LAT])[0] + 10
+          })
+          .attr('y', function(d) {
+            return projection([d.LONG, d.LAT])[1] + 5
+          })
           .attr('fill', 'white')
-          .text(function(d){ return d.CITY + ", "+d.COUNTRY+" (" + d.IATA+")"})
+          .text(function(d) {
+            return d.CITY + ", " + d.COUNTRY + " (" + d.IATA + ")"
+          })
         countries_names.exit().remove()
-        var countries_names = svg.selectAll('text.airports').data(d, function(d){return d.IATA})
+        var countries_names = svg.selectAll('text.airports').data(d, function(d) {
+          return d.IATA
+        })
         countries_names.enter()
           .append('text')
           .attr('class', 'airports')
-          .attr('x', function(d){ return projection([d.LONG, d.LAT])[0] + 10 })
-          .attr('y', function(d){ return projection([d.LONG, d.LAT])[1] + 19})
+          .attr('x', function(d) {
+            return projection([d.LONG, d.LAT])[0] + 10
+          })
+          .attr('y', function(d) {
+            return projection([d.LONG, d.LAT])[1] + 19
+          })
           .attr('fill', 'white')
           .attr('font-size', '13px')
-          .text(function(d){ return d.AIRPORT_NAME})
+          .text(function(d) {
+            return d.AIRPORT_NAME
+          })
         countries_names.exit().remove()
 
       }
@@ -212,8 +246,8 @@
           console.log('using previous stops', stops)
         }
         var visible_stops_iatas = []
-        if(visible_stops!=undefined){
-          _.each(visible_stops, function(each_stop){
+        if (visible_stops != undefined) {
+          _.each(visible_stops, function(each_stop) {
             visible_stops_iatas.push(each_stop.IATA)
           })
         }
@@ -255,19 +289,19 @@
 
         if (typeof(stops) != 'string') {
 
-          var vertical_distance = 70
+          var vertical_distance = 60
 
           var infodots = infosvg.selectAll('circle').data(airport_stops)
 
           infodots
-          .attr('fill', function(d){
-            console.log('checking fill...', d.IATA,'in',visible_stops_iatas)
-            if(visible_stops_iatas.indexOf(d.IATA)>-1){
-              return 'white'
-            } else {
-              return '#8ED83D'
-            }
-          })
+            .attr('fill', function(d) {
+              console.log('checking fill...', d.IATA, 'in', visible_stops_iatas)
+              if (visible_stops_iatas.indexOf(d.IATA) > -1) {
+                return 'white'
+              } else {
+                return '#8ED83D'
+              }
+            })
 
 
 
@@ -285,7 +319,7 @@
             .attr('fill', '#05376A')
 
           .text(function(d) {
-              return d.CITY + ', '+d.COUNTRY+' (' + d.IATA + ')'
+              return d.CITY + ', ' + d.COUNTRY + ' (' + d.IATA + ')'
             })
             .transition()
             .delay(function(d, i) {
@@ -325,20 +359,20 @@
               IATA: each.IATA
             })
           })
-          console.log('vertical_con',vertical_con)
-          console.log('visible_stops_iatas',visible_stops_iatas)
+          console.log('vertical_con', vertical_con)
+          console.log('visible_stops_iatas', visible_stops_iatas)
 
           var previous_duration = 0
           var rects = infosvg.selectAll('rect').data(vertical_con)
 
           rects
-          .attr('fill', function(d){
-            if(visible_stops_iatas.indexOf(d.IATA)>-1){
-              return 'white'
-            } else {
-              return '#8ED83D'
-            }
-          })
+            .attr('fill', function(d) {
+              if (visible_stops_iatas.indexOf(d.IATA) > -1) {
+                return 'white'
+              } else {
+                return '#8ED83D'
+              }
+            })
           rects.enter()
             .append('rect')
             .attr('x', function(d, i) {
@@ -361,27 +395,27 @@
             .attr('height', vertical_distance)
 
 
-            infodots.enter()
-              .append('circle')
-              .attr('cx', function(d, i) {
-                return 20
-              })
-              .attr('cy', function(d, i) {
-                return i * vertical_distance + 50
-              })
-              .attr('r', '0px')
-              .attr('fill', function(d){
-                if(d.IATA in visible_stops_iatas){
-                  return 'red'
-                } else {
-                  return '#8ED83D'
-                }
-              })
-              .transition()
-              .delay(function(d, i) {
-                return 400 * i
-              })
-              .attr('r', '10px')
+          infodots.enter()
+            .append('circle')
+            .attr('cx', function(d, i) {
+              return 20
+            })
+            .attr('cy', function(d, i) {
+              return i * vertical_distance + 50
+            })
+            .attr('r', '0px')
+            .attr('fill', function(d) {
+              if (d.IATA in visible_stops_iatas) {
+                return 'red'
+              } else {
+                return '#8ED83D'
+              }
+            })
+            .transition()
+            .delay(function(d, i) {
+              return 400 * i
+            })
+            .attr('r', '10px')
 
         }
 
@@ -471,19 +505,19 @@
                 return projection([d.LONG, d.LAT])[1];
               })
               .attr("r", "1px")
-              .attr('stroke','rgba(0,0,0,0)')
-              .attr('stroke-width','10px')
+              .attr('stroke', 'rgba(0,0,0,0)')
+              .attr('stroke-width', '10px')
 
-              .attr("fill", "#336190")
+            .attr("fill", "#336190")
               .on('click', function(dot) {
                 console.log(dot)
                 console.log(dot.IATA)
               })
-              .on('mouseover', function(d){
+              .on('mouseover', function(d) {
                 console.log('mouseover!')
-                // d3.select(this)
-                //   .attr("r", '50px')
-                //   console.log(d)
+                  // d3.select(this)
+                  //   .attr("r", '50px')
+                  //   console.log(d)
                 clearTimeout(names_timeout)
 
                 showName([d])
@@ -491,21 +525,21 @@
 
 
               })
-              .on('mouseout', function(d){
+              .on('mouseout', function(d) {
                 console.log('mouseout!')
-                names_timeout = setTimeout(function(){
-                  showName([])
-                }, 2000)
-                // d3.select(this)
-                //   .attr("r", '1px')
+                names_timeout = setTimeout(function() {
+                    showName([])
+                  }, 2000)
+                  // d3.select(this)
+                  //   .attr("r", '1px')
               })
               .transition().delay(function(d, i) {
                 return i * 4
               })
               .attr("fill", "#10C113")
 
-              //.attr("stroke-width", "0.3")
-              //.attr("stroke", "white")
+            //.attr("stroke-width", "0.3")
+            //.attr("stroke", "white")
 
             var nodes = [],
               nodesByName = {},
@@ -697,7 +731,7 @@
             // }
 
             function calculate_and_draw_route(route_list, n_limit) {
-              console.log('route_list',route_list)
+              console.log('route_list', route_list)
               if (route_list.length >= 2) {
                 var origin = route_list[0].toUpperCase()
                 var destination = route_list[1].toUpperCase()
@@ -706,7 +740,7 @@
                   // console.log('Calculating routes!!!', route_list)
 
                 // n_limit = 1
-                  // console.log('last:', routes[routes.length - 1][0])
+                // console.log('last:', routes[routes.length - 1][0])
                 // if (routes[routes.length - 1][0].length == 1) {
                 //   n_limit = routes[1]
                 // }
@@ -761,9 +795,9 @@
 
             var path = window.location.pathname.replace('/', '')
 
-            if(window.location.search.length > -1){
+            if (window.location.search.length > -1) {
               path = window.location.search
-              path = path.replace('?','')
+              path = path.replace('?', '')
             }
 
             if (path.length > 0) {
@@ -773,7 +807,7 @@
               if (routes.length > 1 && routes[routes.length - 1].length == 1) {
                 n_limit = routes[routes.length - 1]
               }
-              console.log('n_limit',n_limit)
+              console.log('n_limit', n_limit)
 
               var routes = []
               _.each(path.split(','), function(each_route) {
@@ -820,19 +854,19 @@
               }
               var sample_route = []
               var the_airports_with_routes = Object.keys(airports_with_routes)
-              console.log('the_airports_with_routes',the_airports_with_routes)
+              console.log('the_airports_with_routes', the_airports_with_routes)
               var origin = 'SCL'
-              var destination = the_airports_with_routes[getRandomArbitrary(10,the_airports_with_routes.length)]
-              if(destination.indexOf(origin) > -1){
-                destination = the_airports_with_routes[getRandomArbitrary(10,the_airports_with_routes.length)]
+              var destination = the_airports_with_routes[getRandomArbitrary(10, the_airports_with_routes.length)]
+              if (destination.indexOf(origin) > -1) {
+                destination = the_airports_with_routes[getRandomArbitrary(10, the_airports_with_routes.length)]
               }
               sample_route.push(origin)
               sample_route.push(destination)
 
               calculate_and_draw_route(sample_route, 1)
-              // _.each(_.range(20), function() {
-              //     drawLegs(_.sample(united_iatas, 10), 'line')
-              //   })
+                // _.each(_.range(20), function() {
+                //     drawLegs(_.sample(united_iatas, 10), 'line')
+                //   })
             }
 
 
