@@ -540,9 +540,9 @@ Mobile +569 42458921</br>
               })
               .on('mouseover', function(d) {
                 console.log('mouseover!')
-                  // d3.select(this)
-                  //   .attr("r", '50px')
-                  //   console.log(d)
+                  d3.select(this)
+                    .attr("r", '5px')
+                    console.log(d)
                 clearTimeout(names_timeout)
 
                 showName([d])
@@ -555,8 +555,8 @@ Mobile +569 42458921</br>
                 names_timeout = setTimeout(function() {
                     showName([])
                   }, 2000)
-                  // d3.select(this)
-                  //   .attr("r", '1px')
+                  d3.select(this)
+                    .attr("r", '1px')
               })
               .transition().delay(function(d, i) {
                 return i * 4
