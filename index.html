@@ -759,10 +759,12 @@
 
 
             var path = window.location.pathname.replace('/', '')
-            console.log('path',path)
 
-            path = path.replace('#/','')
-            console.log('path',path)
+            if(window.location.search.length > -1){
+              path = window.location.search
+              path = path.replace('?','')
+            }
+
             if (path.length > 0) {
 
               var n_limit = 1
