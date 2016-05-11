@@ -57,15 +57,11 @@
 
   <div class="row" style="margin-top: 40px">
     <div class="small-12 medium-5 large-3 columns">
-      <div class="row">
-        <div class="large-12 columns">
-          <img src='img/unitedLogo.png' />
-        </div>
-      </div>
+
     </br>
     </br>
       <div class="row">
-        <div style="margin-top:20px">
+        <div style="margin-top:0px">
           <div class="large-4 columns" style="">
             <img src='img/profilePhoto.png' />
           </div>
@@ -91,6 +87,11 @@
     </div>
     <div class="show-for-large-up large-9 columns">
       <svg id='worldmap'></svg>
+      <div class="row">
+        <div class="large-4 large-centered columns">
+          <img src='img/unitedLogo.png' />
+        </div>
+      </div>
     </div>
   </div>
 
@@ -575,7 +576,7 @@
               //   trayectory = [origin, [xx*10 , -1*diff*10],[0 , -1000], [-xx*10 , diff*10], destination]
               // }
 
-              var stroke_width = 2
+              var stroke_width = 1
               var tweenfunction = function() {
                 var len = this.getTotalLength();
                 return function(t) {
